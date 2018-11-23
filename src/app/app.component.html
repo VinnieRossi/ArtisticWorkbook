@@ -15,7 +15,7 @@
 
   <div *ngIf="rawWorkbookData">
 
-    <div *ngIf="equipmentList">
+    <div *ngIf="equipmentList.length > 0">
       <span><strong>Pool Equipment Includes:</strong></span>
       <ul style="list-style: none;">
         <li *ngFor="let equipment of equipmentList; let i = index">
@@ -24,7 +24,7 @@
       </ul>
     </div>
 
-    <div *ngIf="copingList">
+    <div *ngIf="copingList.length > 0">
       <span><strong>Coping:</strong></span>
       <ul style="list-style: none;">
         <li *ngFor="let coping of copingList; let i = index">
@@ -33,7 +33,7 @@
       </ul>
     </div>
 
-    <div *ngIf="tileList">
+    <div *ngIf="tileList.length > 0">
       <span><strong>Tile:</strong></span>
       <ul style="list-style: none;">
         <li *ngFor="let tile of tileList; let i = index">
@@ -42,7 +42,7 @@
       </ul>
     </div>
 
-    <div *ngIf="lightingList">
+    <div *ngIf="lightingList.length > 0">
       <span><strong>Lighting:</strong></span>
       <ul style="list-style: none;">
         <li *ngFor="let lighting of lightingList; let i = index">
@@ -51,7 +51,7 @@
       </ul>
     </div>
 
-    <div *ngIf="fasciaList">
+    <div *ngIf="fasciaList.length > 0">
       <span><strong>Fascia:</strong></span>
       <ul style="list-style: none;">
         <li *ngFor="let fascia of fasciaList; let i = index">
@@ -60,7 +60,7 @@
       </ul>
     </div>
 
-    <div *ngIf="deckingList">
+    <div *ngIf="deckingList.length > 0">
       <span><strong>Decking:</strong></span>
       <ul style="list-style: none;">
         <li *ngFor="let decking of deckingList; let i = index">
@@ -69,7 +69,7 @@
       </ul>
     </div>
 
-    <div *ngIf="plasterList">
+    <div *ngIf="plasterList.length > 0">
       <span><strong>Plaster:</strong></span>
       <ul style="list-style: none;">
         <li *ngFor="let plaster of plasterList; let i = index">
@@ -78,7 +78,7 @@
       </ul>
     </div>
 
-    <div *ngIf="waterAndExtraList">
+    <div *ngIf="waterAndExtraList.length > 0">
       <span><strong>Extras:</strong></span>
       <ul style="list-style: none;">
         <li *ngFor="let waterAndExtra of waterAndExtraList; let i = index">
