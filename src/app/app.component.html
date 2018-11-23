@@ -12,11 +12,97 @@
   <input type="file" id="input" (change)="readFile($event)">
   <br />
   <br />
-  <div *ngIf="rawWorkbookData">
-    <span><strong>Equipment list</strong></span>
-    <ul>
-      <li *ngFor="let pump of pumps">{{pump}}</li>
-    </ul>
 
+  <div *ngIf="rawWorkbookData">
+
+    <div *ngIf="equipmentList">
+      <span><strong>Pool Equipment Includes:</strong></span>
+      <ul style="list-style: none;">
+        <li *ngFor="let equipment of equipmentList; let i = index">
+          {{i + 1}}. {{equipment}}
+        </li>
+      </ul>
+    </div>
+
+    <div *ngIf="copingList">
+      <span><strong>Coping:</strong></span>
+      <ul style="list-style: none;">
+        <li *ngFor="let coping of copingList; let i = index">
+          {{i + 1}}. {{coping}}
+        </li>
+      </ul>
+    </div>
+
+    <div *ngIf="tileList">
+      <span><strong>Tile:</strong></span>
+      <ul style="list-style: none;">
+        <li *ngFor="let tile of tileList; let i = index">
+          {{i + 1}}. {{tile}}
+        </li>
+      </ul>
+    </div>
+
+    <div *ngIf="lightingList">
+      <span><strong>Lighting:</strong></span>
+      <ul style="list-style: none;">
+        <li *ngFor="let lighting of lightingList; let i = index">
+          {{i + 1}}. {{lighting}}
+        </li>
+      </ul>
+    </div>
+
+    <div *ngIf="fasciaList">
+      <span><strong>Fascia:</strong></span>
+      <ul style="list-style: none;">
+        <li *ngFor="let fascia of fasciaList; let i = index">
+          {{i + 1}}. {{fascia}}
+        </li>
+      </ul>
+    </div>
+
+    <div *ngIf="deckingList">
+      <span><strong>Decking:</strong></span>
+      <ul style="list-style: none;">
+        <li *ngFor="let decking of deckingList; let i = index">
+          {{i + 1}}. {{decking}}
+        </li>
+      </ul>
+    </div>
+
+    <div *ngIf="plasterList">
+      <span><strong>Plaster:</strong></span>
+      <ul style="list-style: none;">
+        <li *ngFor="let plaster of plasterList; let i = index">
+          {{i + 1}}. {{plaster}}
+        </li>
+      </ul>
+    </div>
+
+    <div *ngIf="waterAndExtraList">
+      <span><strong>Extras:</strong></span>
+      <ul style="list-style: none;">
+        <li *ngFor="let waterAndExtra of waterAndExtraList; let i = index">
+          {{i + 1}}. {{waterAndExtra}}
+        </li>
+      </ul>
+    </div>
+
+    <div *ngIf="true">
+      <span><strong>Electrical Services:</strong></span>
+      <ul style="list-style: none;">
+        <!-- <li *ngFor="let coping of copingList; let i = index">
+          {{i + 1}}. {{coping}}
+        </li> -->
+      </ul>
+    </div>
+
+    <div *ngIf="true">
+      <span><strong>Start up and chemicals:</strong></span>
+      <ul style="list-style: none;">
+        <!-- <li *ngFor="let coping of copingList; let i = index">
+          {{i + 1}}. {{coping}}
+        </li> -->
+      </ul>
+    </div>
   </div>
 </div>
