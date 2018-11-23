@@ -237,7 +237,7 @@ export class AppComponent {
   private populateFasciaList(): void {
     this.fasciaInformation.forEach(row => {
 
-      const properEquipmentName = this.getEquipmentName(row);
+      const properEquipmentName = this.getFasciaName(row);
 
       if (this.ignoreSet.has(properEquipmentName)) { return; }
 
@@ -250,13 +250,13 @@ export class AppComponent {
 
       if (itemWasIncluded) {
 
-        this.fasciaList.push(`(1) ${properEquipmentName}`);
+        this.fasciaList.push(`${properEquipmentName}`);
 
       } else if (multipleItemsIncluded) {
 
         const quantity = this.determineQuantityOfItem(cost, chargedAmount);
 
-        this.fasciaList.push(`(${quantity}) ${properEquipmentName}`);
+        this.fasciaList.push(`Raised wall to be faced with (${quantity}) SF of ${properEquipmentName}`);
       }
     });
   }
@@ -340,6 +340,18 @@ export class AppComponent {
     return properName;
   }
 
+  private getFasciaName(row: Array<string>): string {
+
+    const probableName = row[0];
+
+    const mappedName = this.nameMap.get(probableName);
+
+    const result = mappedName ? mappedName : probableName;
+
+    return result;
+
+  }
+
   private determineQuantityOfItem(cost: number, chargedAmount: number): number {
 
     const mod = Math.abs(chargedAmount % cost);
@@ -356,32 +368,41 @@ export class AppComponent {
 
   private getCopingName(row: Array<string>): string {
 
-    const probableName = row[0];
+    const probableName = row[2] ? row[2] : row[0];
 
-    const possibleName = row[2];
+    const possibleName = this.nameMap.get(probableName);
 
     const result = possibleName ? possibleName : probableName;
 
-    const mappedResult = this.nameMap.get(result);
-
-    return mappedResult ? mappedResult : result;
+    return result;
   }
 
   private createNameMap(): void {
+    // Equipment
     this.nameMap.set(`Polaris 360 Head only`, `Polaris 360 automatic pool cleaner with Jandy energy bowl filter`);
     this.nameMap.set(`Sheer decents 4 ft`, `4' long Sheer descent to be installed in center of raised beam wall`);
     this.nameMap.set(`Labor installation`, `Installation of Autofill and Drain. 
     (Schedule 40 PVC water supply line stubbed out of house below grade by others. 
       Sub out is reuqired to meet all building codes and contain installation of backflow device, if necessary, to meet code.)`);
     this.nameMap.set(`3'x8' concrete pad`, `3’ X 8’ concrete equipment pad for equipment set.`);
-    this.nameMap.set(`12"x12" Bullnose`, `Pool will have bullnose travertine Coping (1 ¼” thick).`);
+    this.nameMap.set(`Hayward Skimmer SP1070 & Pressure test kit`, `Skimmer(s)`);
 
+    // Coping
+    this.nameMap.set(`12"x12" Bullnose`, `Pool will have Bullnose Travertine Coping (1 ¼” thick).`);
+
+    // Lighting
     this.nameMap.set(`Savi Sol LED Light - JLU4C30W150`, `Savi Sol LED color changing pool lights.`);
     this.nameMap.set(`300W Transformer`, `Installation of 300 Watt Transformer.`);
+
+    // Fascia
+    this.nameMap.set(`- Country classic, rainbow, ivory, noche`, `Split face Travertine`);
+    this.nameMap.set(`- Pearl`, `Split face Travertine`);
+    this.nameMap.set(`- Stucco - SQ FT`, `Split face Travertine`);
   }
 
   private createIgnoreSet(): void {
     // this.ignoreSet.add('Labor installation');
+    this.ignoreSet.add('Part (Pool ONLY)');
     this.ignoreSet.add('Energy Bowl');
     this.ignoreSet.add('Shipping');
     this.ignoreSet.add('12"x18" DBL BULL'); //?
