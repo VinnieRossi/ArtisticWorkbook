@@ -1,5 +1,5 @@
-import { TileService } from './tile.service';
-import { WaterAndExtrasService } from './water-and-extras.service';
+import { TileService } from '../components/tile-section/providers/tile.service';
+import { WaterAndExtrasService } from '../components/water-and-extras-section/providers/water-and-extras.service';
 import { Injectable } from "@angular/core";
 import { EquipmentService } from "../components/equipment-section/providers/equipment.service";
 import { CopingService } from "../components/coping-section/providers/coping.service";
@@ -11,11 +11,12 @@ import { FasciaService } from "../components/fascia-section/providers/fascia.ser
 })
 export class WorkbookService {
 
-    private masterNameMap: Map<string, string>;
+    private masterNameMap: Map<string, string> = new Map<string, string>();
+    private ignoreSet: Set<string> = new Set<string>();
     private rawWorkbookData: Array<Array<string>>;
 
     constructor(
-        private equipmentService: EquipmentService,
+        // private equipmentService: EquipmentService,
         private copingService: CopingService,
         private lightingService: LightingService,
         private fasciaService: FasciaService,
@@ -23,7 +24,9 @@ export class WorkbookService {
         private tileService: TileService
     ) {
 
-        const equipmentNameMap: Map<string, string> = this.equipmentService.getNameMap();
+        this.createGlobalIgnoreSet();
+
+        // const equipmentNameMap: Map<string, string> = this.equipmentService.getNameMap();
 
         const copingNameMap: Map<string, string> = this.copingService.getNameMap();
 
@@ -31,7 +34,7 @@ export class WorkbookService {
 
         const fasciaNameMap: Map<string, string> = this.fasciaService.getNameMap();
 
-        Object.assign(this.masterNameMap, equipmentNameMap, copingNameMap, lightingNameMap, fasciaNameMap);
+        // Object.assign(this.masterNameMap, equipmentNameMap, copingNameMap, lightingNameMap, fasciaNameMap);
 
     }
 
@@ -47,6 +50,10 @@ export class WorkbookService {
 
         return amount;
 
+    }
+
+    public getGlobalIgnoreSet(): Set<string> {
+        return this.ignoreSet;
     }
 
     public setRawWorkbookData(rawWorkbookData: Array<Array<string>>): void {
@@ -72,14 +79,15 @@ export class WorkbookService {
 
     public retrieveAllDefaultEntries(): Array<string> {
 
-        const equipmentDefaultValues: Array<string> = this.equipmentService.getDefaultEntries();
+        // const equipmentDefaultValues: Array<string> = this.equipmentService.getDefaultEntries();
 
-        return [...equipmentDefaultValues];
+        // return [...equipmentDefaultValues];
+        return [];
     }
 
     public createWorkbookSectionsInServices(): void {
 
-        this.createEquipmentSection();
+        // this.createEquipmentSection();
 
         this.createLightingSection();
 
@@ -93,12 +101,12 @@ export class WorkbookService {
 
     }
 
-    private createEquipmentSection(): void {
+    public getEquipmentSection(): Array<Array<string>> {
 
         // The lighting information is found within the larger equipment information, although it has its' own section in the quote
         const equipmentSection: Array<Array<string>> = [...this.rawWorkbookData.slice(190, 251), ...this.rawWorkbookData.slice(274, 322)];
 
-        this.equipmentService.setSection(equipmentSection);
+        return equipmentSection;
     }
 
     private createLightingSection(): void {
@@ -134,5 +142,14 @@ export class WorkbookService {
         const tileSection: Array<Array<string>> = this.rawWorkbookData.slice(398, 418);
 
         this.tileService.setSection(tileSection);
+    }
+
+    // Make this section-based once I get more info
+    private createGlobalIgnoreSet(): void {
+        // this.ignoreSet.add('Labor installation');
+        this.ignoreSet.add('Part (Pool ONLY)');
+        this.ignoreSet.add('Energy Bowl');
+        this.ignoreSet.add('Shipping');
+        this.ignoreSet.add('12"x18" DBL BULL'); //?
     }
 }

@@ -1,22 +1,15 @@
+import { WorkbookService } from './../../../providers/workbook.service';
 import { Injectable } from "@angular/core";
+import { stringify } from 'querystring';
 
 @Injectable({
     providedIn: 'root',
 })
 export class EquipmentService {
 
-    private dataSection: Array<Array<string>> = new Array<Array<string>>();
-    private nameMap: Map<string, string> = new Map<string, string>();
-
-    constructor() {
-
-        this.nameMap.set(`Polaris 360 Head only`, `Polaris 360 automatic pool cleaner with Jandy energy bowl filter`);
-        this.nameMap.set(`Sheer decents 4 ft`, `4' long Sheer descent to be installed in center of raised beam wall`);
-        this.nameMap.set(`Labor installation`, `Installation of Autofill and Drain. 
-        (Schedule 40 PVC water supply line stubbed out of house below grade by others. 
-          Sub out is reuqired to meet all building codes and contain installation of backflow device, if necessary, to meet code.)`);
-        this.nameMap.set(`3'x8' concrete pad`, `3’ X 8’ concrete equipment pad for equipment set.`);
-        this.nameMap.set(`Hayward Skimmer SP1070 & Pressure test kit`, `Skimmer(s)`);
+    constructor(
+        private workbookService: WorkbookService
+    ) {
 
     }
 
@@ -24,23 +17,22 @@ export class EquipmentService {
 
         const probableName = row[2] ? row[2] : row[3];
 
-        const mappedName = this.nameMap.get(probableName);
-
-        const properName = mappedName ? mappedName : probableName;
-
-        return properName;
+        return probableName;
     }
 
     public getNameMap(): Map<string, string> {
-        return this.nameMap;
-    }
 
-    public setSection(section: Array<Array<string>>): void {
-        this.dataSection = section;
-    }
+        const nameMap: Map<string, string> = new Map<string, string>();
 
-    public getDataSection(): Array<Array<string>> {
-        return this.dataSection;
+        nameMap.set(`Polaris 360 Head only`, `Polaris 360 automatic pool cleaner with Jandy energy bowl filter`);
+        nameMap.set(`Sheer decents 4 ft`, `4' long Sheer descent to be installed in center of raised beam wall`);
+        nameMap.set(`Labor installation`, `Installation of Autofill and Drain. 
+        (Schedule 40 PVC water supply line stubbed out of house below grade by others. 
+          Sub out is reuqired to meet all building codes and contain installation of backflow device, if necessary, to meet code.)`);
+        nameMap.set(`3'x8' concrete pad`, `3’ X 8’ concrete equipment pad for equipment set.`);
+        nameMap.set(`Hayward Skimmer SP1070 & Pressure test kit`, `Skimmer(s)`);
+
+        return nameMap;
     }
 
     public getDefaultEntries(): Array<string> {
@@ -49,5 +41,43 @@ export class EquipmentService {
         const defaultEntries: Array<string> = ['Start-up balancing chemicals for pool'];
 
         return defaultEntries;
+    }
+
+    public getEquipmentDataFromSection(equipmentSectionData: Array<Array<string>>, equipmentIgnoreSet?: Set<string>): Array<string> {
+
+        const equipmentList: Array<string> = [];
+        const ignoreSet: Set<string> = this.workbookService.getGlobalIgnoreSet();
+
+        equipmentSectionData.forEach((row, index) => {
+
+            const properEquipmentName = this.getEquipmentName(row);
+
+            if (ignoreSet.has(properEquipmentName)) { return; }
+
+            const cost = parseFloat(row[7]);
+            const chargedAmount = parseFloat(row[8]);
+
+            // If we charged them the cost for the part, it means it was included
+            const itemWasIncluded = (cost && cost === chargedAmount);
+            const multipleItemsIncluded = (cost && chargedAmount > cost)
+
+            if (itemWasIncluded) {
+
+                equipmentList.push(`(1) ${properEquipmentName}`);
+
+            } else if (multipleItemsIncluded) {
+
+                const quantity = this.workbookService.determineRowQuantity(cost, chargedAmount);
+
+                equipmentList.push(`(${quantity}) ${properEquipmentName}`);
+            }
+
+        });
+
+        // if ()
+        equipmentList.push('Does not include RPZ');
+
+        return equipmentList;
+
     }
 }

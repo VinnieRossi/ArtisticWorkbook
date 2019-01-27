@@ -1,4 +1,3 @@
-<!--The content below is only a placeholder and can be replaced.-->
 <div>
   <div style="text-align:center">
     <h1>
@@ -13,16 +12,13 @@
   <br />
   <br />
 
-  <div *ngIf="rawWorkbookData">
 
-    <div *ngIf="equipmentList.length > 0">
-      <span><strong>Pool Equipment Includes:</strong></span>
-      <ul style="list-style: none;">
-        <li *ngFor="let equipment of equipmentList; let i = index">
-          {{i + 1}}. {{equipment}}
-        </li>
-      </ul>
-    </div>
+
+  <div *ngIf="shouldDisplayWorkbookSections()">
+
+    <vin-equipment-section></vin-equipment-section>
+
+
 
     <div *ngIf="copingList.length > 0">
       <span><strong>Coping:</strong></span>

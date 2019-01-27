@@ -1,3 +1,8 @@
-<p>
-  equipment-section works!
-</p>
+<div *ngIf="equipmentList.length > 0">
+  <span><strong>Pool Equipment Includes:</strong></span>
+  <ul style="list-style: none;">
+    <li *ngFor="let equipment of equipmentList; let i = index">
+      {{i + 1}}. {{equipment}}
+    </li>
+  </ul>
+</div>

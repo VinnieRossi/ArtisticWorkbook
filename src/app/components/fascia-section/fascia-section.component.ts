@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-fascia-section',
+  selector: 'vin-fascia-section',
   templateUrl: './fascia-section.component.html',
   styleUrls: ['./fascia-section.component.css']
 })

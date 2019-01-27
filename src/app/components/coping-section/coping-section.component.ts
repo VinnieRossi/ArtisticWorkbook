@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-coping-section',
+  selector: 'vin-coping-section',
   templateUrl: './coping-section.component.html',
   styleUrls: ['./coping-section.component.css']
 })

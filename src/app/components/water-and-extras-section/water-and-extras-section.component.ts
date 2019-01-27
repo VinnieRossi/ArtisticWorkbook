@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-water-and-extras-section',
+  selector: 'vin-water-and-extras-section',
   templateUrl: './water-and-extras-section.component.html',
   styleUrls: ['./water-and-extras-section.component.css']
 })

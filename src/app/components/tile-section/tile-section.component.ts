@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-tile-section',
+  selector: 'vin-tile-section',
   templateUrl: './tile-section.component.html',
   styleUrls: ['./tile-section.component.css']
 })

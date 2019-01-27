@@ -3,12 +3,10 @@ import { CopingService } from './components/coping-section/providers/coping.serv
 import { Component } from '@angular/core';
 
 import { EquipmentService } from './components/equipment-section/providers/equipment.service';
-import { LightingService } from './components/lighting-section/providers/lighting.service';
 import { FasciaService } from './components/fascia-section/providers/fascia.service';
 
 import readXlsxFile from 'read-excel-file'
-import { WaterAndExtrasService } from './providers/water-and-extras.service';
-import { TileService } from './providers/tile.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -16,12 +14,8 @@ import { TileService } from './providers/tile.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'Artistic Workbook Helper';
 
-  // rawWorkbookData: Array<Array<string>>;
-
-  equipmentInformation: Array<Array<string>>;
-  equipmentList: Array<string> = [];
+  private title: string = 'Artistic Workbook Helper';
 
   lightingInformation: Array<Array<string>>;
   lightingList: Array<string> = [];
@@ -55,7 +49,7 @@ export class AppComponent {
     private copingService: CopingService
 
   ) {
-    this.createIgnoreSet();
+
   }
 
   readFile(event: any): any {
@@ -71,6 +65,13 @@ export class AppComponent {
       this.getEquipmentList();
     });
 
+  }
+
+  public shouldDisplayWorkbookSections(): boolean {
+
+    if (this.workbookService.getRawWorkbookData()) { return true; }
+
+    return false;
   }
 
   private getEquipmentList(): void {
@@ -122,8 +123,6 @@ export class AppComponent {
 
   private populateAllLists() {
 
-    this.populateEquipmentList();
-
     this.populateLightingList();
 
     this.populateWaterAndExtraList();
@@ -139,39 +138,6 @@ export class AppComponent {
 
     // Page 3
     // this.populateDeckingList();
-  }
-
-  private populateEquipmentList(): void {
-
-    this.equipmentInformation.forEach((row, index) => {
-
-      const properEquipmentName = this.equipmentService.getEquipmentName(row);
-
-      if (this.ignoreSet.has(properEquipmentName)) { return; }
-
-      const cost = parseFloat(row[7]);
-      const chargedAmount = parseFloat(row[8]);
-
-      // If we charged them the cost for the part, it means it was included
-      const itemWasIncluded = (cost && cost === chargedAmount);
-      const multipleItemsIncluded = (cost && chargedAmount > cost)
-
-      if (itemWasIncluded) {
-
-        this.equipmentList.push(`(1) ${properEquipmentName}`);
-
-      } else if (multipleItemsIncluded) {
-
-        const quantity = this.workbookService.determineRowQuantity(cost, chargedAmount);
-
-        this.equipmentList.push(`(${quantity}) ${properEquipmentName}`);
-      }
-
-    });
-
-    // if ()
-    this.equipmentList.push('Does not include RPZ');
-
   }
 
   private populateLightingList(): void {
@@ -314,12 +280,6 @@ export class AppComponent {
 
   }
 
-  private createIgnoreSet(): void {
-    // this.ignoreSet.add('Labor installation');
-    this.ignoreSet.add('Part (Pool ONLY)');
-    this.ignoreSet.add('Energy Bowl');
-    this.ignoreSet.add('Shipping');
-    this.ignoreSet.add('12"x18" DBL BULL'); //?
-  }
+
 
 }

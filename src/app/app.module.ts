@@ -1,21 +1,9 @@
-import { StartupChemicalService } from './providers/startup-chemicals.service';
+
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 // Components
 import { AppComponent } from './app.component';
-
-// Services
-import { EquipmentService } from './components/equipment-section/providers/equipment.service'
-import { CopingService } from './components/coping-section/providers/coping.service';
-import { FasciaService } from './components/fascia-section/providers/fascia.service';
-import { LightingService } from './components/lighting-section/providers/lighting.service';
-import { WaterAndExtrasService } from './providers/water-and-extras.service';
-import { TileService } from './providers/tile.service';
-import { DeckingService } from './providers/decking.service';
-import { ElectricalServicesService } from './components/electrical-services-section/providers/electrical-services.service';
-
-import { WorkbookService } from './providers/workbook.service';
 import { EquipmentSectionComponent } from './components/equipment-section/equipment-section.component';
 import { CopingSectionComponent } from './components/coping-section/coping-section.component';
 import { TileSectionComponent } from './components/tile-section/tile-section.component';
@@ -26,6 +14,19 @@ import { WaterAndExtrasSectionComponent } from './components/water-and-extras-se
 import { ElectricalServicesSectionComponent } from './components/electrical-services-section/electrical-services-section.component';
 import { StartupChemicalsSectionComponent } from './components/startup-chemicals-section/startup-chemicals-section.component';
 import { DeckingSectionComponent } from './components/decking-section/decking-section.component';
+
+// Services
+import { WorkbookService } from './providers/workbook.service';
+
+import { EquipmentService } from './components/equipment-section/providers/equipment.service'
+import { CopingService } from './components/coping-section/providers/coping.service';
+import { FasciaService } from './components/fascia-section/providers/fascia.service';
+import { LightingService } from './components/lighting-section/providers/lighting.service';
+import { ElectricalServicesService } from './components/electrical-services-section/providers/electrical-services.service';
+import { WaterAndExtrasService } from './components/water-and-extras-section/providers/water-and-extras.service';
+import { TileService } from './components/tile-section/providers/tile.service';
+import { DeckingService } from './components/decking-section/providers/decking.service';
+import { StartupChemicalService } from './components/startup-chemicals-section/providers/startup-chemicals.service';
 
 
 @NgModule({
