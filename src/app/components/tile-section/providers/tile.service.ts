@@ -16,7 +16,7 @@ export class TileService {
         return nameMap;
     }
 
-    public getTileDataFromSection(tileSectionData: Array<Array<string>>, nameMap: Map<string, string>): Array<string> {
+    public getTileDataFromSection(tileSectionData: Array<Array<string>>): Array<string> {
 
         const tileList: Array<string> = [];
 

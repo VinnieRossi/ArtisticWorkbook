@@ -11,21 +11,17 @@ export class TileSectionComponent implements OnInit {
 
   public tileList: Array<string>;
 
-  private nameMap: Map<string, string> = new Map<string, string>();
-
   constructor(
     private tileService: TileService,
     private workbookService: WorkbookService
   ) {
-
-    this.nameMap = this.tileService.getNameMap();
   }
 
   ngOnInit() {
 
     const tileSectionData: Array<Array<string>> = this.workbookService.getTileSection();
 
-    this.tileList = this.tileService.getTileDataFromSection(tileSectionData, this.nameMap);
+    this.tileList = this.tileService.getTileDataFromSection(tileSectionData);
 
   }
 
