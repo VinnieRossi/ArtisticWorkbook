@@ -9,8 +9,9 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class EquipmentSectionComponent implements OnInit {
 
+  public equipmentList: Array<string>;
+
   private nameMap: Map<string, string> = new Map<string, string>();
-  private equipmentList: Array<string> = [];
 
   constructor(
     private equipmentService: EquipmentService,
@@ -24,21 +25,7 @@ export class EquipmentSectionComponent implements OnInit {
 
     const equipmentSectionData: Array<Array<string>> = this.workbookService.getEquipmentSection();
 
-    this.equipmentList = this.equipmentService.getEquipmentDataFromSection(equipmentSectionData);
+    this.equipmentList = this.equipmentService.getEquipmentDataFromSection(equipmentSectionData, this.nameMap);
 
   }
-
-  public getEquipmentName(row: Array<string>): string {
-
-    const probableName = this.equipmentService.getEquipmentName(row);
-
-    const mappedName = this.nameMap.get(probableName);
-
-    const properName = mappedName ? mappedName : probableName;
-
-    return properName;
-  }
-
-
-
 }

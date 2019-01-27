@@ -13,13 +13,6 @@ export class EquipmentService {
 
     }
 
-    public getEquipmentName(row: Array<string>): string {
-
-        const probableName = row[2] ? row[2] : row[3];
-
-        return probableName;
-    }
-
     public getNameMap(): Map<string, string> {
 
         const nameMap: Map<string, string> = new Map<string, string>();
@@ -43,14 +36,17 @@ export class EquipmentService {
         return defaultEntries;
     }
 
-    public getEquipmentDataFromSection(equipmentSectionData: Array<Array<string>>, equipmentIgnoreSet?: Set<string>): Array<string> {
+    public getEquipmentDataFromSection(equipmentSectionData: Array<Array<string>>, nameMap: Map<string, string>, equipmentIgnoreSet?: Set<string>): Array<string> {
 
         const equipmentList: Array<string> = [];
+
+        const defaultEquipmentListEntries: Array<string> = this.getDefaultEntries();
+
         const ignoreSet: Set<string> = this.workbookService.getGlobalIgnoreSet();
 
         equipmentSectionData.forEach((row, index) => {
 
-            const properEquipmentName = this.getEquipmentName(row);
+            const properEquipmentName = this.getEquipmentName(row, nameMap);
 
             if (ignoreSet.has(properEquipmentName)) { return; }
 
@@ -77,7 +73,20 @@ export class EquipmentService {
         // if ()
         equipmentList.push('Does not include RPZ');
 
+        equipmentList.push(...defaultEquipmentListEntries);
+
         return equipmentList;
 
+    }
+
+    private getEquipmentName(row: Array<string>, nameMap: Map<string, string>): string {
+
+        const probableName = row[2] ? row[2] : row[3];
+
+        const mappedName = nameMap.get(probableName);
+
+        const properName = mappedName ? mappedName : probableName;
+
+        return properName;
     }
 }

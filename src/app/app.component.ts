@@ -78,60 +78,21 @@ export class AppComponent {
 
     if (!this.workbookService.getRawWorkbookData()) { return; }
 
-    // Pool Equipment
-    // Pumps
-    // Booster pump
-    // Filters
-    // Heat Pumps
-    // Heaters
-    // Controls/Automation
-    // Sanitation System
-    // Mechanical Timer
-    // Lighting (subsection)
-    // Valves
-    // Automatic CLeaner
-    // Auto Fill [RPZ Flag lives here]
-    // Air BLower
-    // Start-up kit
-    // Additional Items (subsection extras)
-    // 56
-
-    // Coping [LN 413-473]
-
-    // Tile [LN 502-516]
-
-    // Lighting [LN 307-338]
-
-    // Fascia [LN 474-501]
-
-    // Decking {SHEET 3} [LN 11-25]
-
-    // Plaster {SHEET 2} [LN 85-200?]
-
-    // Extras [LN 390-412]
-
-    // Electric Services - Always the same?
-    // Start up and chemicals - Always the same?
-
-    this.workbookService.createWorkbookSectionsInServices();
-
-    this.workbookService.retrieveAllDefaultEntries(); // Add these to the proper list
-
     this.populateAllLists();
 
   }
 
   private populateAllLists() {
 
-    this.populateLightingList();
+    // this.populateLightingList();
 
-    this.populateWaterAndExtraList();
+    // this.populateWaterAndExtraList();
 
-    this.populateCopingList();
+    // // this.populateCopingList();
 
-    this.populateFasciaList()
+    // this.populateFasciaList()
 
-    this.populateTileList()
+    // this.populateTileList()
 
     // Page 2
     // this.populatePlasterList();
@@ -196,21 +157,6 @@ export class AppComponent {
         const quantity = this.workbookService.determineRowQuantity(cost, chargedAmount);
 
         this.waterAndExtraList.push(`(${quantity}) ${properEquipmentName}`);
-      }
-    });
-  }
-
-  private populateCopingList(): void {
-
-    this.copingInformation.forEach(row => {
-      const properCopingName = this.copingService.getCopingName(row);
-      if (this.ignoreSet.has(properCopingName)) {
-        return;
-      }
-      const cost = parseFloat(row[8]);
-      const itemWasIncluded = (cost);
-      if (properCopingName && itemWasIncluded) {
-        this.copingList.push(properCopingName);
       }
     });
   }

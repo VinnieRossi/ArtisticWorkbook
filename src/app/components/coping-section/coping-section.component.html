@@ -1,3 +1,8 @@
-<p>
-  coping-section works!
-</p>
+<div *ngIf="copingList.length > 0">
+  <span><strong>Coping:</strong></span>
+  <ul style="list-style: none;">
+    <li *ngFor="let coping of copingList; let i = index">
+      {{i + 1}}. {{coping}}
+    </li>
+  </ul>
+</div>

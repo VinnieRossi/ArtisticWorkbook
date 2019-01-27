@@ -18,16 +18,7 @@
 
     <vin-equipment-section></vin-equipment-section>
 
-
-
-    <div *ngIf="copingList.length > 0">
-      <span><strong>Coping:</strong></span>
-      <ul style="list-style: none;">
-        <li *ngFor="let coping of copingList; let i = index">
-          {{i + 1}}. {{coping}}
-        </li>
-      </ul>
-    </div>
+    <vin-coping-section></vin-coping-section>
 
     <div *ngIf="tileList.length > 0">
       <span><strong>Tile:</strong></span>

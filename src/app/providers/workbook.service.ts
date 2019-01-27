@@ -1,10 +1,5 @@
-import { TileService } from '../components/tile-section/providers/tile.service';
-import { WaterAndExtrasService } from '../components/water-and-extras-section/providers/water-and-extras.service';
 import { Injectable } from "@angular/core";
-import { EquipmentService } from "../components/equipment-section/providers/equipment.service";
-import { CopingService } from "../components/coping-section/providers/coping.service";
-import { LightingService } from "../components/lighting-section/providers/lighting.service";
-import { FasciaService } from "../components/fascia-section/providers/fascia.service";
+
 
 @Injectable({
     providedIn: 'root',
@@ -16,25 +11,9 @@ export class WorkbookService {
     private rawWorkbookData: Array<Array<string>>;
 
     constructor(
-        // private equipmentService: EquipmentService,
-        private copingService: CopingService,
-        private lightingService: LightingService,
-        private fasciaService: FasciaService,
-        private waterAndExtrasService: WaterAndExtrasService,
-        private tileService: TileService
     ) {
 
         this.createGlobalIgnoreSet();
-
-        // const equipmentNameMap: Map<string, string> = this.equipmentService.getNameMap();
-
-        const copingNameMap: Map<string, string> = this.copingService.getNameMap();
-
-        const lightingNameMap: Map<string, string> = this.lightingService.getNameMap();
-
-        const fasciaNameMap: Map<string, string> = this.fasciaService.getNameMap();
-
-        // Object.assign(this.masterNameMap, equipmentNameMap, copingNameMap, lightingNameMap, fasciaNameMap);
 
     }
 
@@ -85,22 +64,6 @@ export class WorkbookService {
         return [];
     }
 
-    public createWorkbookSectionsInServices(): void {
-
-        // this.createEquipmentSection();
-
-        this.createLightingSection();
-
-        this.createWaterAndExtraSection();
-
-        this.createCopingSection();
-
-        this.createFasciaSection();
-
-        this.createTileSection();
-
-    }
-
     public getEquipmentSection(): Array<Array<string>> {
 
         // The lighting information is found within the larger equipment information, although it has its' own section in the quote
@@ -109,39 +72,39 @@ export class WorkbookService {
         return equipmentSection;
     }
 
-    private createLightingSection(): void {
+    public getLightingSection(): Array<Array<string>> {
 
         const lightingSection: Array<Array<string>> = this.rawWorkbookData.slice(251, 274);
 
-        this.lightingService.setSection(lightingSection);
+        return lightingSection;
     }
 
-    private createWaterAndExtraSection(): void {
+    public getWaterAndExtraSection(): Array<Array<string>> {
 
         const waterAndExtraSection: Array<Array<string>> = this.rawWorkbookData.slice(322, 340);
 
-        this.waterAndExtrasService.setSection(waterAndExtraSection);
+        return waterAndExtraSection;
     }
 
-    private createCopingSection(): void {
+    public getCopingSection(): Array<Array<string>> {
 
         const copingSection: Array<Array<string>> = this.rawWorkbookData.slice(340, 384);
 
-        this.copingService.setSection(copingSection);
+        return copingSection;
     }
 
-    private createFasciaSection(): void {
+    public getFasciaSection(): Array<Array<string>> {
 
         const fasciaSection: Array<Array<string>> = this.rawWorkbookData.slice(384, 398);
 
-        this.fasciaService.setSection(fasciaSection);
+        return fasciaSection;
     }
 
-    private createTileSection(): void {
+    public getTileSection(): Array<Array<string>> {
 
         const tileSection: Array<Array<string>> = this.rawWorkbookData.slice(398, 418);
 
-        this.tileService.setSection(tileSection);
+        return tileSection;
     }
 
     // Make this section-based once I get more info
@@ -152,4 +115,41 @@ export class WorkbookService {
         this.ignoreSet.add('Shipping');
         this.ignoreSet.add('12"x18" DBL BULL'); //?
     }
+
+
 }
+
+// Pool Equipment
+// Pumps
+// Booster pump
+// Filters
+// Heat Pumps
+// Heaters
+// Controls/Automation
+// Sanitation System
+// Mechanical Timer
+// Lighting (subsection)
+// Valves
+// Automatic CLeaner
+// Auto Fill [RPZ Flag lives here]
+// Air BLower
+// Start-up kit
+// Additional Items (subsection extras)
+// 56
+
+// Coping [LN 413-473]
+
+// Tile [LN 502-516]
+
+// Lighting [LN 307-338]
+
+// Fascia [LN 474-501]
+
+// Decking {SHEET 3} [LN 11-25]
+
+// Plaster {SHEET 2} [LN 85-200?]
+
+// Extras [LN 390-412]
+
+// Electric Services - Always the same?
+// Start up and chemicals - Always the same?
