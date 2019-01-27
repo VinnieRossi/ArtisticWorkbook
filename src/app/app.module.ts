@@ -16,8 +16,6 @@ import { StartupChemicalsSectionComponent } from './components/startup-chemicals
 import { DeckingSectionComponent } from './components/decking-section/decking-section.component';
 
 // Services
-import { WorkbookService } from './providers/workbook.service';
-
 import { EquipmentService } from './components/equipment-section/providers/equipment.service'
 import { CopingService } from './components/coping-section/providers/coping.service';
 import { FasciaService } from './components/fascia-section/providers/fascia.service';
@@ -27,6 +25,9 @@ import { WaterAndExtrasService } from './components/water-and-extras-section/pro
 import { TileService } from './components/tile-section/providers/tile.service';
 import { DeckingService } from './components/decking-section/providers/decking.service';
 import { StartupChemicalService } from './components/startup-chemicals-section/providers/startup-chemicals.service';
+
+// Shared services
+import { WorkbookService } from './shared/providers/workbook.service';
 
 
 @NgModule({

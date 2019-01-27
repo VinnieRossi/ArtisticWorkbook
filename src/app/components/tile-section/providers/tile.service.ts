@@ -1,12 +1,14 @@
 import { Injectable } from "@angular/core";
+import { WorkbookService } from "src/app/shared/providers/workbook.service";
 
 @Injectable({
     providedIn: 'root',
 })
 export class TileService {
 
-    constructor() {
-
+    constructor(
+        private workbookService: WorkbookService
+    ) {
     }
 
     public getNameMap(): Map<string, string> {
@@ -16,7 +18,9 @@ export class TileService {
         return nameMap;
     }
 
-    public getTileDataFromSection(tileSectionData: Array<Array<string>>): Array<string> {
+    public getTileDataFromSection(): Array<string> {
+
+        const tileSectionData: Array<Array<string>> = this.workbookService.getTileSection();
 
         const tileList: Array<string> = [];
 

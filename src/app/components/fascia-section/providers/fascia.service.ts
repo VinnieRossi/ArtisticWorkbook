@@ -1,5 +1,6 @@
-import { WorkbookService } from './../../../providers/workbook.service';
+
 import { Injectable } from "@angular/core";
+import { WorkbookService } from "src/app/shared/providers/workbook.service";
 
 @Injectable({
     providedIn: 'root',
@@ -36,7 +37,9 @@ export class FasciaService {
 
     }
 
-    public getFasciaDataFromSection(fasciaSectionData: Array<Array<string>>): Array<string> {
+    public getFasciaDataFromSection(): Array<string> {
+
+        const fasciaSectionData: Array<Array<string>> = this.workbookService.getFasciaSection();
 
         const fasciaList: Array<string> = [];
 

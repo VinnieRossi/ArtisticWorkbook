@@ -1,5 +1,6 @@
-import { WorkbookService } from './../../../providers/workbook.service';
+
 import { Injectable } from "@angular/core";
+import { WorkbookService } from "src/app/shared/providers/workbook.service";
 
 @Injectable({
     providedIn: 'root',
@@ -44,7 +45,9 @@ export class CopingService {
         return result;
     }
 
-    public getCopingDataFromSection(copingSectionData: Array<Array<string>>, copingIgnoreSet?: Set<string>): Array<string> {
+    public getCopingDataFromSection(copingIgnoreSet?: Set<string>): Array<string> {
+
+        const copingSectionData: Array<Array<string>> = this.workbookService.getCopingSection();
 
         const copingList: Array<string> = [];
 

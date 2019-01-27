@@ -1,5 +1,6 @@
-import { WorkbookService } from './../../../providers/workbook.service';
+
 import { Injectable } from "@angular/core";
+import { WorkbookService } from "src/app/shared/providers/workbook.service";
 
 @Injectable({
     providedIn: 'root',
@@ -35,7 +36,9 @@ export class EquipmentService {
         return defaultEntries;
     }
 
-    public getEquipmentDataFromSection(equipmentSectionData: Array<Array<string>>, equipmentIgnoreSet?: Set<string>): Array<string> {
+    public getEquipmentDataFromSection(equipmentIgnoreSet?: Set<string>): Array<string> {
+
+        const equipmentSectionData: Array<Array<string>> = this.workbookService.getEquipmentSection();
 
         const equipmentList: Array<string> = [];
 

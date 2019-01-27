@@ -1,5 +1,6 @@
-import { WorkbookService } from 'src/app/providers/workbook.service';
+
 import { Injectable } from "@angular/core";
+import { WorkbookService } from "src/app/shared/providers/workbook.service";
 
 @Injectable({
     providedIn: 'root',
@@ -23,7 +24,9 @@ export class LightingService {
     }
 
 
-    public getLightingDataFromSection(lightingSectionData: Array<Array<string>>): Array<string> {
+    public getLightingDataFromSection(): Array<string> {
+
+        const lightingSectionData: Array<Array<string>> = this.workbookService.getLightingSection();
 
         const nameMap: Map<string, string> = this.getNameMap();
 

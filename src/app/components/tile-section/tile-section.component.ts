@@ -1,4 +1,3 @@
-import { WorkbookService } from 'src/app/providers/workbook.service';
 import { Component, OnInit } from '@angular/core';
 import { TileService } from './providers/tile.service';
 
@@ -12,16 +11,13 @@ export class TileSectionComponent implements OnInit {
   public tileList: Array<string>;
 
   constructor(
-    private tileService: TileService,
-    private workbookService: WorkbookService
+    private tileService: TileService
   ) {
   }
 
   ngOnInit() {
 
-    const tileSectionData: Array<Array<string>> = this.workbookService.getTileSection();
-
-    this.tileList = this.tileService.getTileDataFromSection(tileSectionData);
+    this.tileList = this.tileService.getTileDataFromSection();
 
   }
 

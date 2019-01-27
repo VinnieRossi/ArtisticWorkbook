@@ -1,4 +1,4 @@
-import { WorkbookService } from './../../providers/workbook.service';
+
 import { EquipmentService } from './providers/equipment.service';
 import { Component, OnInit, Input } from '@angular/core';
 
@@ -12,16 +12,13 @@ export class EquipmentSectionComponent implements OnInit {
   public equipmentList: Array<string>;
 
   constructor(
-    private equipmentService: EquipmentService,
-    private workbookService: WorkbookService
+    private equipmentService: EquipmentService
   ) {
   }
 
   ngOnInit() {
 
-    const equipmentSectionData: Array<Array<string>> = this.workbookService.getEquipmentSection();
-
-    this.equipmentList = this.equipmentService.getEquipmentDataFromSection(equipmentSectionData);
+    this.equipmentList = this.equipmentService.getEquipmentDataFromSection();
 
   }
 }

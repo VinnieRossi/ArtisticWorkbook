@@ -7,13 +7,13 @@ import { Injectable } from "@angular/core";
 export class WorkbookService {
 
     private ignoreSet: Set<string> = new Set<string>();
+
     private rawWorkbookData: Array<Array<string>>;
 
     constructor(
     ) {
 
         this.createGlobalIgnoreSet();
-
     }
 
     public determineRowQuantity(cost: number, chargedAmount: number): number {

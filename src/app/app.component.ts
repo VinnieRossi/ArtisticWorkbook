@@ -1,7 +1,6 @@
-import { WorkbookService } from './providers/workbook.service';
 import { Component } from '@angular/core';
-
 import readXlsxFile from 'read-excel-file'
+import { WorkbookService } from './shared/providers/workbook.service';
 
 @Component({
   selector: 'app-root',
