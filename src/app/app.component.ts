@@ -10,22 +10,9 @@ import readXlsxFile from 'read-excel-file'
 })
 export class AppComponent {
 
-  waterAndExtraInformation: Array<Array<string>>;
-  waterAndExtraList: Array<string> = [];
-
-  fasciaInformation: Array<Array<string>>;
-  fasciaList: Array<string> = []
-
-  deckingInformation: Array<Array<string>>;
-  deckingList: Array<string> = []
-
-  plasterInformation: Array<Array<string>>;
-  plasterList: Array<string> = []
-
   constructor(
     private workbookService: WorkbookService,
   ) {
-
   }
 
   readFile(event: any): any {
