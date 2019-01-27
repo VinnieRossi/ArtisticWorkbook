@@ -1,3 +1,8 @@
-<p>
-  decking-section works!
-</p>
+<div *ngIf="deckingList.length > 0">
+  <span><strong>Decking:</strong></span>
+  <ul style="list-style: none;">
+    <li *ngFor="let decking of deckingList; let i = index">
+      {{i + 1}}. {{decking}}
+    </li>
+  </ul>
+</div>

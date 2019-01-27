@@ -12,8 +12,6 @@
   <br />
   <br />
 
-
-
   <div *ngIf="shouldDisplayWorkbookSections()">
 
     <vin-equipment-section></vin-equipment-section>
@@ -22,67 +20,19 @@
 
     <vin-tile-section></vin-tile-section>
 
-    <div *ngIf="lightingList.length > 0">
-      <span><strong>Lighting:</strong></span>
-      <ul style="list-style: none;">
-        <li *ngFor="let lighting of lightingList; let i = index">
-          {{i + 1}}. {{lighting}}
-        </li>
-      </ul>
-    </div>
+    <vin-lighting-section></vin-lighting-section>
 
-    <div *ngIf="fasciaList.length > 0">
-      <span><strong>Fascia:</strong></span>
-      <ul style="list-style: none;">
-        <li *ngFor="let fascia of fasciaList; let i = index">
-          {{i + 1}}. {{fascia}}
-        </li>
-      </ul>
-    </div>
+    <vin-fascia-section></vin-fascia-section>
 
-    <div *ngIf="deckingList.length > 0">
-      <span><strong>Decking:</strong></span>
-      <ul style="list-style: none;">
-        <li *ngFor="let decking of deckingList; let i = index">
-          {{i + 1}}. {{decking}}
-        </li>
-      </ul>
-    </div>
+    <vin-decking-section></vin-decking-section>
 
-    <div *ngIf="plasterList.length > 0">
-      <span><strong>Plaster:</strong></span>
-      <ul style="list-style: none;">
-        <li *ngFor="let plaster of plasterList; let i = index">
-          {{i + 1}}. {{plaster}}
-        </li>
-      </ul>
-    </div>
+    <vin-plaster-section></vin-plaster-section>
 
-    <div *ngIf="waterAndExtraList.length > 0">
-      <span><strong>Extras:</strong></span>
-      <ul style="list-style: none;">
-        <li *ngFor="let waterAndExtra of waterAndExtraList; let i = index">
-          {{i + 1}}. {{waterAndExtra}}
-        </li>
-      </ul>
-    </div>
+    <vin-water-and-extras-section></vin-water-and-extras-section>
 
-    <div *ngIf="true">
-      <span><strong>Electrical Services:</strong></span>
-      <ul style="list-style: none;">
-        <!-- <li *ngFor="let coping of copingList; let i = index">
-          {{i + 1}}. {{coping}}
-        </li> -->
-      </ul>
-    </div>
+    <vin-electrical-services-section></vin-electrical-services-section>
 
-    <div *ngIf="true">
-      <span><strong>Start up and chemicals:</strong></span>
-      <ul style="list-style: none;">
-        <!-- <li *ngFor="let coping of copingList; let i = index">
-          {{i + 1}}. {{coping}}
-        </li> -->
-      </ul>
-    </div>
+    <vin-startup-chemicals-section></vin-startup-chemicals-section>
+
   </div>
 </div>

@@ -1,3 +1,8 @@
-<p>
-  water-and-extras-section works!
-</p>
+<div *ngIf="waterAndExtraList.length > 0">
+  <span><strong>Extras:</strong></span>
+  <ul style="list-style: none;">
+    <li *ngFor="let waterAndExtra of waterAndExtraList; let i = index">
+      {{i + 1}}. {{waterAndExtra}}
+    </li>
+  </ul>
+</div>

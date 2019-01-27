@@ -1,3 +1,8 @@
-<p>
-  lighting-section works!
-</p>
+<div *ngIf="lightingList.length > 0">
+  <span><strong>Lighting:</strong></span>
+  <ul style="list-style: none;">
+    <li *ngFor="let lighting of lightingList; let i = index">
+      {{i + 1}}. {{lighting}}
+    </li>
+  </ul>
+</div>

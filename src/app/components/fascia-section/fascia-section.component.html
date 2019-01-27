@@ -1,3 +1,8 @@
-<p>
-  fascia-section works!
-</p>
+<div *ngIf="fasciaList.length > 0">
+  <span><strong>Fascia:</strong></span>
+  <ul style="list-style: none;">
+    <li *ngFor="let fascia of fasciaList; let i = index">
+      {{i + 1}}. {{fascia}}
+    </li>
+  </ul>
+</div>

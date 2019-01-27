@@ -1,3 +1,8 @@
-<p>
-  plaster-section works!
-</p>
+<div *ngIf="plasterList.length > 0">
+  <span><strong>Plaster:</strong></span>
+  <ul style="list-style: none;">
+    <li *ngFor="let plaster of plasterList; let i = index">
+      {{i + 1}}. {{plaster}}
+    </li>
+  </ul>
+</div>
