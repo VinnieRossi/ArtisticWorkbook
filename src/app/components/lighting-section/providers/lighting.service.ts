@@ -1,3 +1,4 @@
+import { WorkbookService } from 'src/app/providers/workbook.service';
 import { Injectable } from "@angular/core";
 
 @Injectable({
@@ -5,25 +6,58 @@ import { Injectable } from "@angular/core";
 })
 export class LightingService {
 
-    private dataSection: Array<Array<string>> = new Array<Array<string>>();
-    private nameMap: Map<string, string> = new Map<string, string>();
-
-    constructor() {
-
-        this.nameMap.set(`Savi Sol LED Light - JLU4C30W150`, `Savi Sol LED color changing pool lights.`);
-        this.nameMap.set(`300W Transformer`, `Installation of 300 Watt Transformer.`);
+    constructor(
+        private workbookService: WorkbookService
+    ) {
 
     }
 
     public getNameMap(): Map<string, string> {
-        return this.nameMap;
+
+        const nameMap: Map<string, string> = new Map<string, string>();
+
+        nameMap.set(`Savi Sol LED Light - JLU4C30W150`, `Savi Sol LED color changing pool lights.`);
+        nameMap.set(`300W Transformer`, `Installation of 300 Watt Transformer.`);
+
+        return nameMap;
     }
 
-    public setSection(section: Array<Array<string>>): void {
-        this.dataSection = section;
-    }
 
-    public getDataSection(): Array<Array<string>> {
-        return this.dataSection;
+    public getLightingDataFromSection(lightingSectionData: Array<Array<string>>, nameMap: Map<string, string>): Array<string> {
+
+        const lightingList: Array<string> = [];
+
+        const ignoreSet: Set<string> = this.workbookService.getGlobalIgnoreSet();
+
+        lightingSectionData.forEach((row, index) => {
+
+            const properEquipmentName = this.workbookService.getBestGuessName(row);
+
+            if (ignoreSet.has(properEquipmentName)) { return; }
+
+            const cost = parseFloat(row[7]);
+            const chargedAmount = parseFloat(row[8]);
+
+            // If we charged them the cost for the part, it means it was included
+            const itemWasIncluded = (cost && cost === chargedAmount);
+            const multipleItemsIncluded = (cost && chargedAmount > cost)
+
+            if (itemWasIncluded) {
+
+                lightingList.push(`(1) ${properEquipmentName}`);
+
+            } else if (multipleItemsIncluded) {
+
+                const quantity = this.workbookService.determineRowQuantity(cost, chargedAmount);
+
+                lightingList.push(`(${quantity}) ${properEquipmentName}`);
+            }
+
+        });
+
+        // this.lightingList.push(`Installation of electrical junction boxes.`);
+
+        return lightingList;
+
     }
 }

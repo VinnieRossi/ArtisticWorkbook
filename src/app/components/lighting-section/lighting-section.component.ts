@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { LightingService } from './providers/lighting.service';
+import { WorkbookService } from 'src/app/providers/workbook.service';
 
 @Component({
   selector: 'vin-lighting-section',
@@ -7,9 +9,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LightingSectionComponent implements OnInit {
 
-  constructor() { }
+  public lightingList: Array<string>;
 
-  ngOnInit() {
+  private nameMap: Map<string, string> = new Map<string, string>();
+
+  constructor(
+    private lightingService: LightingService,
+    private workbookService: WorkbookService
+  ) {
+
+    this.nameMap = this.lightingService.getNameMap();
   }
 
+  ngOnInit() {
+
+    const equipmentSectionData: Array<Array<string>> = this.workbookService.getLightingSection();
+
+    this.lightingList = this.lightingService.getLightingDataFromSection(equipmentSectionData, this.nameMap);
+
+  }
 }

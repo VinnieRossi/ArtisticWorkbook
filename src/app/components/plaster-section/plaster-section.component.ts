@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PlasterSectionComponent implements OnInit {
 
+  // Page 2
   constructor() { }
 
   ngOnInit() {

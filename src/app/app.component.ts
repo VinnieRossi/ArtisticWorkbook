@@ -15,22 +15,11 @@ import { Observable } from 'rxjs';
 })
 export class AppComponent {
 
-  private title: string = 'Artistic Workbook Helper';
-
-  lightingInformation: Array<Array<string>>;
-  lightingList: Array<string> = [];
-
   waterAndExtraInformation: Array<Array<string>>;
   waterAndExtraList: Array<string> = [];
 
-  copingInformation: Array<Array<string>>;
-  copingList: Array<string> = []
-
   fasciaInformation: Array<Array<string>>;
   fasciaList: Array<string> = []
-
-  tileInformation: Array<Array<string>>;
-  tileList: Array<string> = []
 
   deckingInformation: Array<Array<string>>;
   deckingList: Array<string> = []
@@ -38,15 +27,9 @@ export class AppComponent {
   plasterInformation: Array<Array<string>>;
   plasterList: Array<string> = []
 
-
-  // nameMap: Map<string, string>;
-  ignoreSet: Set<String> = new Set<string>();
-
   constructor(
-    private equipmentService: EquipmentService,
     private workbookService: WorkbookService,
     private fasciaService: FasciaService,
-    private copingService: CopingService
 
   ) {
 
@@ -59,10 +42,6 @@ export class AppComponent {
     readXlsxFile(selectedFile, { sheet: 1 }).then(rows => {
 
       this.workbookService.setRawWorkbookData(rows);
-
-      // this.rawWorkbookData = rows;
-
-      this.getEquipmentList();
     });
 
   }
@@ -72,65 +51,6 @@ export class AppComponent {
     if (this.workbookService.getRawWorkbookData()) { return true; }
 
     return false;
-  }
-
-  private getEquipmentList(): void {
-
-    if (!this.workbookService.getRawWorkbookData()) { return; }
-
-    this.populateAllLists();
-
-  }
-
-  private populateAllLists() {
-
-    // this.populateLightingList();
-
-    // this.populateWaterAndExtraList();
-
-    // // this.populateCopingList();
-
-    // this.populateFasciaList()
-
-    // this.populateTileList()
-
-    // Page 2
-    // this.populatePlasterList();
-
-    // Page 3
-    // this.populateDeckingList();
-  }
-
-  private populateLightingList(): void {
-
-    this.lightingInformation.forEach((row, index) => {
-
-      const properEquipmentName = this.workbookService.getBestGuessName(row);
-
-      if (this.ignoreSet.has(properEquipmentName)) { return; }
-
-      const cost = parseFloat(row[7]);
-      const chargedAmount = parseFloat(row[8]);
-
-      // If we charged them the cost for the part, it means it was included
-      const itemWasIncluded = (cost && cost === chargedAmount);
-      const multipleItemsIncluded = (cost && chargedAmount > cost)
-
-      if (itemWasIncluded) {
-
-        this.lightingList.push(`(1) ${properEquipmentName}`);
-
-      } else if (multipleItemsIncluded) {
-
-        const quantity = this.workbookService.determineRowQuantity(cost, chargedAmount);
-
-        this.lightingList.push(`(${quantity}) ${properEquipmentName}`);
-      }
-
-    });
-
-    // this.lightingList.push(`Installation of electrical junction boxes.`);
-
   }
 
   private populateWaterAndExtraList(): void {
@@ -187,9 +107,5 @@ export class AppComponent {
       }
     });
   }
-
-
-
-
 
 }
