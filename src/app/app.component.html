@@ -20,14 +20,7 @@
 
     <vin-coping-section></vin-coping-section>
 
-    <div *ngIf="tileList.length > 0">
-      <span><strong>Tile:</strong></span>
-      <ul style="list-style: none;">
-        <li *ngFor="let tile of tileList; let i = index">
-          {{i + 1}}. {{tile}}
-        </li>
-      </ul>
-    </div>
+    <vin-tile-section></vin-tile-section>
 
     <div *ngIf="lightingList.length > 0">
       <span><strong>Lighting:</strong></span>

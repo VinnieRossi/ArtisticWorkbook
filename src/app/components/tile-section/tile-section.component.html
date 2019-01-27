@@ -1,3 +1,8 @@
-<p>
-  tile-section works!
-</p>
+<div *ngIf="tileList.length > 0">
+  <span><strong>Tile:</strong></span>
+  <ul style="list-style: none;">
+    <li *ngFor="let tile of tileList; let i = index">
+      {{i + 1}}. {{tile}}
+    </li>
+  </ul>
+</div>

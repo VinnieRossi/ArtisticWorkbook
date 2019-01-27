@@ -188,43 +188,7 @@ export class AppComponent {
     });
   }
 
-  private populateTileList(): void {
 
-    const tileLaborCost = parseFloat((this.tileInformation[11])[6]);
-
-    const tileInformationText = `Installation of 6” x 6” pool tile`;
-
-    const tileLaborText = `Includes tile cost of up to $${tileLaborCost}/SF`;
-
-    this.tileList = [tileInformationText, tileLaborText];
-
-    // this.tileInformation.forEach(row => {
-
-    //   const properEquipmentName = this.getEquipmentName(row);
-
-    //   if (this.ignoreSet.has(properEquipmentName)) { return; }
-
-    //   const cost = parseFloat(row[6]);
-    //   const chargedAmount = parseFloat(row[8]);
-    //   // If we charged them the cost for the part, it means it was included
-
-    //   const itemWasIncluded = (cost && cost === chargedAmount);
-    //   const multipleItemsIncluded = (cost && chargedAmount > cost);
-
-    //   if (itemWasIncluded) {
-
-    //     this.tileList.push(`(1) ${properEquipmentName}`);
-
-    //   } else if (multipleItemsIncluded) {
-
-    //     const quantity = this.determineQuantityOfItem(cost, chargedAmount);
-
-    //     this.tileList.push(`(${quantity}) ${properEquipmentName}`);
-    //   }
-    // });
-
-
-  }
 
 
 

@@ -1,4 +1,6 @@
+import { WorkbookService } from 'src/app/providers/workbook.service';
 import { Component, OnInit } from '@angular/core';
+import { TileService } from './providers/tile.service';
 
 @Component({
   selector: 'vin-tile-section',
@@ -7,9 +9,24 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TileSectionComponent implements OnInit {
 
-  constructor() { }
+  public tileList: Array<string>;
+
+  private nameMap: Map<string, string> = new Map<string, string>();
+
+  constructor(
+    private tileService: TileService,
+    private workbookService: WorkbookService
+  ) {
+
+    this.nameMap = this.tileService.getNameMap();
+  }
 
   ngOnInit() {
+
+    const tileSectionData: Array<Array<string>> = this.workbookService.getTileSection();
+
+    this.tileList = this.tileService.getTileDataFromSection(tileSectionData, this.nameMap);
+
   }
 
 }
