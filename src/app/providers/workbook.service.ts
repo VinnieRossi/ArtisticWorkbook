@@ -6,7 +6,6 @@ import { Injectable } from "@angular/core";
 })
 export class WorkbookService {
 
-    private masterNameMap: Map<string, string> = new Map<string, string>();
     private ignoreSet: Set<string> = new Set<string>();
     private rawWorkbookData: Array<Array<string>>;
 
@@ -45,15 +44,19 @@ export class WorkbookService {
         return this.rawWorkbookData;
     }
 
-    public getBestGuessName(row: Array<string>): string {
+    public getBestGuessName(row: Array<string>, nameMap?: Map<string, string>): string {
 
         const probableName = row[2] ? row[2] : row[3];
 
-        const mappedName = this.masterNameMap.get(probableName);
+        if (nameMap) {
+            const mappedName = nameMap.get(probableName);
 
-        const properName = mappedName ? mappedName : probableName;
+            const properName = mappedName ? mappedName : probableName;
 
-        return properName;
+            return properName;
+        }
+
+        return probableName;
     }
 
     public retrieveAllDefaultEntries(): Array<string> {

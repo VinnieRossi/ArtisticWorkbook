@@ -1,12 +1,8 @@
 import { WorkbookService } from './providers/workbook.service';
-import { CopingService } from './components/coping-section/providers/coping.service';
 import { Component } from '@angular/core';
-
-import { EquipmentService } from './components/equipment-section/providers/equipment.service';
 import { FasciaService } from './components/fascia-section/providers/fascia.service';
 
 import readXlsxFile from 'read-excel-file'
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -48,9 +44,9 @@ export class AppComponent {
 
   public shouldDisplayWorkbookSections(): boolean {
 
-    if (this.workbookService.getRawWorkbookData()) { return true; }
+    const workBookDataLoaded: boolean = !!this.workbookService.getRawWorkbookData();
 
-    return false;
+    return workBookDataLoaded;
   }
 
   private populateWaterAndExtraList(): void {
@@ -77,33 +73,6 @@ export class AppComponent {
         const quantity = this.workbookService.determineRowQuantity(cost, chargedAmount);
 
         this.waterAndExtraList.push(`(${quantity}) ${properEquipmentName}`);
-      }
-    });
-  }
-
-  private populateFasciaList(): void {
-    this.fasciaInformation.forEach(row => {
-
-      const properEquipmentName = this.fasciaService.getFasciaName(row);
-
-      if (this.ignoreSet.has(properEquipmentName)) { return; }
-
-      const cost = parseFloat(row[6]);
-      const chargedAmount = parseFloat(row[8]);
-      // If we charged them the cost for the part, it means it was included
-
-      const itemWasIncluded = (cost && cost === chargedAmount);
-      const multipleItemsIncluded = (cost && chargedAmount > cost);
-
-      if (itemWasIncluded) {
-
-        this.fasciaList.push(`${properEquipmentName}`);
-
-      } else if (multipleItemsIncluded) {
-
-        const quantity = this.workbookService.determineRowQuantity(cost, chargedAmount);
-
-        this.fasciaList.push(`Raised wall to be faced with (${quantity}) SF of ${properEquipmentName}`);
       }
     });
   }

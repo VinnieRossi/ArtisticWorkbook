@@ -31,7 +31,9 @@ export class CopingService {
         return this.dataSection;
     }
 
-    public getCopingName(row: Array<string>, nameMap: Map<string, string>): string {
+    public getCopingName(row: Array<string>): string {
+
+        const nameMap: Map<string, string> = this.getNameMap();
 
         const probableName = row[2] ? row[2] : row[0];
 
@@ -42,7 +44,7 @@ export class CopingService {
         return result;
     }
 
-    public getCopingDataFromSection(copingSectionData: Array<Array<string>>, nameMap: Map<string, string>, copingIgnoreSet?: Set<string>): Array<string> {
+    public getCopingDataFromSection(copingSectionData: Array<Array<string>>, copingIgnoreSet?: Set<string>): Array<string> {
 
         const copingList: Array<string> = [];
 
@@ -50,7 +52,7 @@ export class CopingService {
 
         copingSectionData.forEach(row => {
 
-            const properCopingName = this.getCopingName(row, nameMap);
+            const properCopingName = this.getCopingName(row);
 
             if (ignoreSet.has(properCopingName)) {
                 return;

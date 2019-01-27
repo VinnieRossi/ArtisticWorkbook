@@ -35,7 +35,7 @@ export class EquipmentService {
         return defaultEntries;
     }
 
-    public getEquipmentDataFromSection(equipmentSectionData: Array<Array<string>>, nameMap: Map<string, string>, equipmentIgnoreSet?: Set<string>): Array<string> {
+    public getEquipmentDataFromSection(equipmentSectionData: Array<Array<string>>, equipmentIgnoreSet?: Set<string>): Array<string> {
 
         const equipmentList: Array<string> = [];
 
@@ -45,7 +45,7 @@ export class EquipmentService {
 
         equipmentSectionData.forEach((row, index) => {
 
-            const properEquipmentName = this.getEquipmentName(row, nameMap);
+            const properEquipmentName = this.getEquipmentName(row);
 
             if (ignoreSet.has(properEquipmentName)) { return; }
 
@@ -78,7 +78,9 @@ export class EquipmentService {
 
     }
 
-    private getEquipmentName(row: Array<string>, nameMap: Map<string, string>): string {
+    private getEquipmentName(row: Array<string>): string {
+
+        const nameMap: Map<string, string> = this.getNameMap()
 
         const probableName = row[2] ? row[2] : row[3];
 

@@ -23,7 +23,9 @@ export class LightingService {
     }
 
 
-    public getLightingDataFromSection(lightingSectionData: Array<Array<string>>, nameMap: Map<string, string>): Array<string> {
+    public getLightingDataFromSection(lightingSectionData: Array<Array<string>>): Array<string> {
+
+        const nameMap: Map<string, string> = this.getNameMap();
 
         const lightingList: Array<string> = [];
 
@@ -31,7 +33,7 @@ export class LightingService {
 
         lightingSectionData.forEach((row, index) => {
 
-            const properEquipmentName = this.workbookService.getBestGuessName(row);
+            const properEquipmentName = this.workbookService.getBestGuessName(row, nameMap);
 
             if (ignoreSet.has(properEquipmentName)) { return; }
 

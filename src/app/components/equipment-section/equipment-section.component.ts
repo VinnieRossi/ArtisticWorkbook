@@ -11,21 +11,17 @@ export class EquipmentSectionComponent implements OnInit {
 
   public equipmentList: Array<string>;
 
-  private nameMap: Map<string, string> = new Map<string, string>();
-
   constructor(
     private equipmentService: EquipmentService,
     private workbookService: WorkbookService
   ) {
-
-    this.nameMap = this.equipmentService.getNameMap();
   }
 
   ngOnInit() {
 
     const equipmentSectionData: Array<Array<string>> = this.workbookService.getEquipmentSection();
 
-    this.equipmentList = this.equipmentService.getEquipmentDataFromSection(equipmentSectionData, this.nameMap);
+    this.equipmentList = this.equipmentService.getEquipmentDataFromSection(equipmentSectionData);
 
   }
 }
