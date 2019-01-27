@@ -1,7 +1,6 @@
 import { WorkbookService } from 'src/app/shared/providers/workbook.service';
-
 import { EquipmentService } from './providers/equipment.service';
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 @Component({

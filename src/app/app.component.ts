@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import readXlsxFile from 'read-excel-file'
 import { WorkbookService } from './shared/providers/workbook.service';
 
 @Component({
@@ -7,6 +6,7 @@ import { WorkbookService } from './shared/providers/workbook.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
+
 export class AppComponent {
 
   constructor(
