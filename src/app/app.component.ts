@@ -46,32 +46,4 @@ export class AppComponent {
     return workBookDataLoaded;
   }
 
-  private populateWaterAndExtraList(): void {
-
-    this.waterAndExtraInformation.forEach(row => {
-
-      const properEquipmentName = this.workbookService.getBestGuessName(row);
-
-      if (this.ignoreSet.has(properEquipmentName)) { return; }
-
-      const cost = parseFloat(row[6]);
-      const chargedAmount = parseFloat(row[8]);
-      // If we charged them the cost for the part, it means it was included
-
-      const itemWasIncluded = (cost && cost === chargedAmount);
-      const multipleItemsIncluded = (cost && chargedAmount > cost);
-
-      if (itemWasIncluded) {
-
-        this.waterAndExtraList.push(`(1) ${properEquipmentName}`);
-
-      } else if (multipleItemsIncluded) {
-
-        const quantity = this.workbookService.determineRowQuantity(cost, chargedAmount);
-
-        this.waterAndExtraList.push(`(${quantity}) ${properEquipmentName}`);
-      }
-    });
-  }
-
 }
