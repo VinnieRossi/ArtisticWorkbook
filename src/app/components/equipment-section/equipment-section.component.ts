@@ -22,13 +22,9 @@ export class EquipmentSectionComponent implements OnInit, OnDestroy {
     this.fileUploaded = this.workbookService.getWorkbookUpdatedObservable().subscribe(newVal => {
       this.equipmentList = this.equipmentService.getEquipmentDataFromSection();
     })
-
   }
 
   ngOnInit() {
-
-    this.equipmentList = this.equipmentService.getEquipmentDataFromSection();
-
   }
 
   ngOnDestroy(): void {

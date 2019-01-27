@@ -1,5 +1,7 @@
 import { WaterAndExtrasService } from './providers/water-and-extras.service';
 import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { WorkbookService } from 'src/app/shared/providers/workbook.service';
 
 @Component({
   selector: 'vin-water-and-extras-section',
@@ -9,15 +11,19 @@ import { Component, OnInit } from '@angular/core';
 export class WaterAndExtrasSectionComponent implements OnInit {
 
   public waterAndExtraList: Array<string>;
+  public fileUploaded: Subscription;
 
   constructor(
-    private waterAndExtrasService: WaterAndExtrasService
-  ) { }
+    private waterAndExtrasService: WaterAndExtrasService,
+    private workbookService: WorkbookService
+  ) {
+
+    this.fileUploaded = this.workbookService.getWorkbookUpdatedObservable().subscribe(newVal => {
+      this.waterAndExtraList = this.waterAndExtrasService.getWaterAndExtraDataFromSection();
+    })
+  }
 
   ngOnInit() {
-
-    this.waterAndExtraList = this.waterAndExtrasService.getWaterAndExtraDataFromSection();
-
   }
 
 }

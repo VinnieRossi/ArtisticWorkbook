@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Observable, from, Subject } from "rxjs";
+import { Observable, from, Subject, ReplaySubject } from "rxjs";
 import readXlsxFile from 'read-excel-file'
 
 
@@ -12,7 +12,7 @@ export class WorkbookService {
 
     private rawWorkbookData: Array<Array<string>>;
 
-    public workbookDataUploaded$: Subject<Array<Array<string>>> = new Subject();
+    public workbookDataUploaded$: ReplaySubject<Array<Array<string>>> = new ReplaySubject();
 
     constructor(
     ) {
@@ -48,7 +48,7 @@ export class WorkbookService {
 
     }
 
-    public getWorkbookUpdatedObservable(): Subject<any> {
+    public getWorkbookUpdatedObservable(): ReplaySubject<any> {
         return this.workbookDataUploaded$;
     }
 

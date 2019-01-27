@@ -22,6 +22,8 @@ export class TileService {
 
         const tileSectionData: Array<Array<string>> = this.workbookService.getTileSection();
 
+        if (!tileSectionData || tileSectionData.length === 0) { return; }
+
         const tileList: Array<string> = [];
 
         const tileLaborCost = parseFloat((tileSectionData[11])[6]);
