@@ -8,6 +8,8 @@ import { Component, OnInit } from '@angular/core';
 export class PlasterSectionComponent implements OnInit {
 
   // Page 2
+  public plasterList: Array<string> = [];
+
   constructor() { }
 
   ngOnInit() {

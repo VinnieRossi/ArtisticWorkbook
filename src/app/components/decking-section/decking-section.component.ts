@@ -8,6 +8,8 @@ import { Component, OnInit } from '@angular/core';
 export class DeckingSectionComponent implements OnInit {
 
   // Page 3
+  public deckingList: Array<string> = [];
+
   constructor() { }
 
   ngOnInit() {

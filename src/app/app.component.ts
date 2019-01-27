@@ -1,6 +1,5 @@
 import { WorkbookService } from './providers/workbook.service';
 import { Component } from '@angular/core';
-import { FasciaService } from './components/fascia-section/providers/fascia.service';
 
 import readXlsxFile from 'read-excel-file'
 
@@ -25,8 +24,6 @@ export class AppComponent {
 
   constructor(
     private workbookService: WorkbookService,
-    private fasciaService: FasciaService,
-
   ) {
 
   }
