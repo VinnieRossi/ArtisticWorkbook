@@ -1,4 +1,6 @@
 import { Injectable } from "@angular/core";
+import { Observable, from, Subject } from "rxjs";
+import readXlsxFile from 'read-excel-file'
 
 
 @Injectable({
@@ -9,6 +11,8 @@ export class WorkbookService {
     private ignoreSet: Set<string> = new Set<string>();
 
     private rawWorkbookData: Array<Array<string>>;
+
+    public workbookDataUploaded$: Subject<Array<Array<string>>> = new Subject();
 
     constructor(
     ) {
@@ -34,9 +38,18 @@ export class WorkbookService {
         return this.ignoreSet;
     }
 
-    public setRawWorkbookData(rawWorkbookData: Array<Array<string>>): void {
+    public async setRawWorkbookData(selectedFile: any): Promise<void> {
 
-        this.rawWorkbookData = rawWorkbookData;
+        const workbookData: Array<Array<string>> = await readXlsxFile(selectedFile, { sheet: 1 });
+
+        this.rawWorkbookData = workbookData;
+
+        this.workbookDataUploaded$.next(workbookData);
+
+    }
+
+    public getWorkbookUpdatedObservable(): Subject<any> {
+        return this.workbookDataUploaded$;
     }
 
     public getRawWorkbookData(): Array<Array<string>> {
@@ -57,14 +70,6 @@ export class WorkbookService {
         }
 
         return probableName;
-    }
-
-    public retrieveAllDefaultEntries(): Array<string> {
-
-        // const equipmentDefaultValues: Array<string> = this.equipmentService.getDefaultEntries();
-
-        // return [...equipmentDefaultValues];
-        return [];
     }
 
     public getEquipmentSection(): Array<Array<string>> {
@@ -155,4 +160,4 @@ export class WorkbookService {
 // Extras [LN 390-412]
 
 // Electric Services - Always the same?
-// Start up and chemicals - Always the same?
+// Start up and chemicals - Always the same?.

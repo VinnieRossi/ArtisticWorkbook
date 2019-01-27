@@ -18,10 +18,7 @@ export class AppComponent {
 
     const selectedFile = event.target.files[0];
 
-    readXlsxFile(selectedFile, { sheet: 1 }).then(rows => {
-
-      this.workbookService.setRawWorkbookData(rows);
-    });
+    this.workbookService.setRawWorkbookData(selectedFile);
 
   }
 
