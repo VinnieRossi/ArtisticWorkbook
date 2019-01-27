@@ -1,5 +1,14 @@
+import { WorkbookService } from './providers/workbook.service';
+import { CopingService } from './components/coping-section/providers/coping.service';
 import { Component } from '@angular/core';
+
+import { EquipmentService } from './components/equipment-section/providers/equipment.service';
+import { LightingService } from './components/lighting-section/providers/lighting.service';
+import { FasciaService } from './components/fascia-section/providers/fascia.service';
+
 import readXlsxFile from 'read-excel-file'
+import { WaterAndExtrasService } from './providers/water-and-extras.service';
+import { TileService } from './providers/tile.service';
 
 @Component({
   selector: 'app-root',
@@ -9,7 +18,7 @@ import readXlsxFile from 'read-excel-file'
 export class AppComponent {
   title = 'Artistic Workbook Helper';
 
-  rawWorkbookData: Array<Array<string>>;
+  // rawWorkbookData: Array<Array<string>>;
 
   equipmentInformation: Array<Array<string>>;
   equipmentList: Array<string> = [];
@@ -36,12 +45,16 @@ export class AppComponent {
   plasterList: Array<string> = []
 
 
-  nameMap: Map<string, string> = new Map<string, string>();
+  // nameMap: Map<string, string>;
   ignoreSet: Set<String> = new Set<string>();
 
-  constructor() {
+  constructor(
+    private equipmentService: EquipmentService,
+    private workbookService: WorkbookService,
+    private fasciaService: FasciaService,
+    private copingService: CopingService
 
-    this.createNameMap();
+  ) {
     this.createIgnoreSet();
   }
 
@@ -51,7 +64,9 @@ export class AppComponent {
 
     readXlsxFile(selectedFile, { sheet: 1 }).then(rows => {
 
-      this.rawWorkbookData = rows;
+      this.workbookService.setRawWorkbookData(rows);
+
+      // this.rawWorkbookData = rows;
 
       this.getEquipmentList();
     });
@@ -60,7 +75,7 @@ export class AppComponent {
 
   private getEquipmentList(): void {
 
-    if (!this.rawWorkbookData) { return; }
+    if (!this.workbookService.getRawWorkbookData()) { return; }
 
     // Pool Equipment
     // Pumps
@@ -97,11 +112,11 @@ export class AppComponent {
     // Electric Services - Always the same?
     // Start up and chemicals - Always the same?
 
-    this.createSectionsFromWorkbook();
+    this.workbookService.createWorkbookSectionsInServices();
+
+    this.workbookService.retrieveAllDefaultEntries(); // Add these to the proper list
 
     this.populateAllLists();
-
-    this.addDefaultValues();
 
   }
 
@@ -130,7 +145,7 @@ export class AppComponent {
 
     this.equipmentInformation.forEach((row, index) => {
 
-      const properEquipmentName = this.getEquipmentName(row);
+      const properEquipmentName = this.equipmentService.getEquipmentName(row);
 
       if (this.ignoreSet.has(properEquipmentName)) { return; }
 
@@ -147,7 +162,7 @@ export class AppComponent {
 
       } else if (multipleItemsIncluded) {
 
-        const quantity = this.determineQuantityOfItem(cost, chargedAmount);
+        const quantity = this.workbookService.determineRowQuantity(cost, chargedAmount);
 
         this.equipmentList.push(`(${quantity}) ${properEquipmentName}`);
       }
@@ -163,7 +178,7 @@ export class AppComponent {
 
     this.lightingInformation.forEach((row, index) => {
 
-      const properEquipmentName = this.getEquipmentName(row);
+      const properEquipmentName = this.workbookService.getBestGuessName(row);
 
       if (this.ignoreSet.has(properEquipmentName)) { return; }
 
@@ -180,14 +195,14 @@ export class AppComponent {
 
       } else if (multipleItemsIncluded) {
 
-        const quantity = this.determineQuantityOfItem(cost, chargedAmount);
+        const quantity = this.workbookService.determineRowQuantity(cost, chargedAmount);
 
         this.lightingList.push(`(${quantity}) ${properEquipmentName}`);
       }
 
     });
 
-    this.lightingList.push(`Installation of electrical junction boxes.`);
+    // this.lightingList.push(`Installation of electrical junction boxes.`);
 
   }
 
@@ -195,7 +210,7 @@ export class AppComponent {
 
     this.waterAndExtraInformation.forEach(row => {
 
-      const properEquipmentName = this.getEquipmentName(row);
+      const properEquipmentName = this.workbookService.getBestGuessName(row);
 
       if (this.ignoreSet.has(properEquipmentName)) { return; }
 
@@ -212,7 +227,7 @@ export class AppComponent {
 
       } else if (multipleItemsIncluded) {
 
-        const quantity = this.determineQuantityOfItem(cost, chargedAmount);
+        const quantity = this.workbookService.determineRowQuantity(cost, chargedAmount);
 
         this.waterAndExtraList.push(`(${quantity}) ${properEquipmentName}`);
       }
@@ -222,7 +237,7 @@ export class AppComponent {
   private populateCopingList(): void {
 
     this.copingInformation.forEach(row => {
-      const properCopingName = this.getCopingName(row);
+      const properCopingName = this.copingService.getCopingName(row);
       if (this.ignoreSet.has(properCopingName)) {
         return;
       }
@@ -237,7 +252,7 @@ export class AppComponent {
   private populateFasciaList(): void {
     this.fasciaInformation.forEach(row => {
 
-      const properEquipmentName = this.getFasciaName(row);
+      const properEquipmentName = this.fasciaService.getFasciaName(row);
 
       if (this.ignoreSet.has(properEquipmentName)) { return; }
 
@@ -254,7 +269,7 @@ export class AppComponent {
 
       } else if (multipleItemsIncluded) {
 
-        const quantity = this.determineQuantityOfItem(cost, chargedAmount);
+        const quantity = this.workbookService.determineRowQuantity(cost, chargedAmount);
 
         this.fasciaList.push(`Raised wall to be faced with (${quantity}) SF of ${properEquipmentName}`);
       }
@@ -297,107 +312,6 @@ export class AppComponent {
     // });
 
 
-  }
-
-
-
-
-  private addDefaultValues() {
-
-    this.equipmentList.push('Two entrance steps into pool');
-    this.equipmentList.push('Start-up balancing chemicals for pool');
-  }
-
-
-
-
-
-  private createSectionsFromWorkbook(): void {
-
-    // The lighting information is found within the larger equipment information, although it has its' own section in the quote
-    this.equipmentInformation = [...this.rawWorkbookData.slice(190, 251), ...this.rawWorkbookData.slice(274, 322)];
-
-    this.lightingInformation = this.rawWorkbookData.slice(251, 274);
-
-    this.waterAndExtraInformation = this.rawWorkbookData.slice(322, 340);
-
-    this.copingInformation = this.rawWorkbookData.slice(340, 384);
-
-    this.fasciaInformation = this.rawWorkbookData.slice(384, 398);
-
-    this.tileInformation = this.rawWorkbookData.slice(398, 418);
-
-  }
-
-  private getEquipmentName(row: Array<string>): string {
-
-    const probableName = row[2] ? row[2] : row[3];
-
-    const mappedName = this.nameMap.get(probableName);
-
-    const properName = mappedName ? mappedName : probableName;
-
-    return properName;
-  }
-
-  private getFasciaName(row: Array<string>): string {
-
-    const probableName = row[0];
-
-    const mappedName = this.nameMap.get(probableName);
-
-    const result = mappedName ? mappedName : probableName;
-
-    return result;
-
-  }
-
-  private determineQuantityOfItem(cost: number, chargedAmount: number): number {
-
-    const mod = Math.abs(chargedAmount % cost);
-
-    if (mod !== 0 && mod > 1) {
-      console.log(`Item found with improper cost/charge: Cost: ${cost}, Charged: ${chargedAmount}, Leftover Amount: ${mod}`);
-    }
-
-    const amount: number = mod === 0 ? chargedAmount / cost : Math.floor(chargedAmount / cost);
-
-    return amount;
-
-  }
-
-  private getCopingName(row: Array<string>): string {
-
-    const probableName = row[2] ? row[2] : row[0];
-
-    const possibleName = this.nameMap.get(probableName);
-
-    const result = possibleName ? possibleName : probableName;
-
-    return result;
-  }
-
-  private createNameMap(): void {
-    // Equipment
-    this.nameMap.set(`Polaris 360 Head only`, `Polaris 360 automatic pool cleaner with Jandy energy bowl filter`);
-    this.nameMap.set(`Sheer decents 4 ft`, `4' long Sheer descent to be installed in center of raised beam wall`);
-    this.nameMap.set(`Labor installation`, `Installation of Autofill and Drain. 
-    (Schedule 40 PVC water supply line stubbed out of house below grade by others. 
-      Sub out is reuqired to meet all building codes and contain installation of backflow device, if necessary, to meet code.)`);
-    this.nameMap.set(`3'x8' concrete pad`, `3’ X 8’ concrete equipment pad for equipment set.`);
-    this.nameMap.set(`Hayward Skimmer SP1070 & Pressure test kit`, `Skimmer(s)`);
-
-    // Coping
-    this.nameMap.set(`12"x12" Bullnose`, `Pool will have Bullnose Travertine Coping (1 ¼” thick).`);
-
-    // Lighting
-    this.nameMap.set(`Savi Sol LED Light - JLU4C30W150`, `Savi Sol LED color changing pool lights.`);
-    this.nameMap.set(`300W Transformer`, `Installation of 300 Watt Transformer.`);
-
-    // Fascia
-    this.nameMap.set(`- Country classic, rainbow, ivory, noche`, `Split face Travertine`);
-    this.nameMap.set(`- Pearl`, `Split face Travertine`);
-    this.nameMap.set(`- Stucco - SQ FT`, `Split face Travertine`);
   }
 
   private createIgnoreSet(): void {
